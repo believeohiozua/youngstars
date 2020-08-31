@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+
+<head>
+    <meta charset="UTF-8">
+    <title>ASSESSMENT PAGE</title>
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+</head>
+
+<body id="questions">
+
+    <div id="qst_1">
+
+        <br>
+        <span id="chected"></span>
+    </div>
+    <div class="container">
+        <div id="quiz">
+            <h1>Time Left - <span id="countdownnumber"></span></h1>
+
+            <hr style="margin-bottom: 20px">
+
+            <p id="question"></p>
+
+            <div class="button-grp">
+                <button id="btn0"><span id="choice0"></span></button>
+                <button id="btn1"><span id="choice1"></span></button>
+                <button id="btn2"><span id="choice2"></span></button>
+                <button id="btn3"><span id="choice3"></span></button>
+                <i id="null"></i>
+            </div>
+            <hr style="margin-top: 50px">
+            <footer>
+                <p id="progress">Question x of y</p>
+            </footer>
+            <hr style="margin-bottom; 50px">
+        </div>
+    </div>
+    <form action="." method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="done">
+        <input type="hidden" name="flag">
+        <div id="submit"></div>
+    </form>
+    <script src="{% static 'app.js'%}"></script>
+    <script>
+        function Quiz(questions) {
+            this.score = 0;
+            this.questions = questions;
+            this.questionIndex = 0;
+        }
+
+        Quiz.prototype.getQuestionIndex = function () {
+            return this.questions[this.questionIndex]
+        }
+
+        Quiz.prototype.isEnded = function () {
+            return this.questions.length === this.questionIndex;
+        }
+
+        Quiz.prototype.guess = function (answer) {
+
+            if (this.getQuestionIndex().correctAnswer(answer)) {
+                this.score++;
+            }
+
+            this.questionIndex++;
+        }
+
+        function Question(text, choices, answer) {
+            this.text = text;
+            this.choices = choices;
+            this.answer = answer;
+        }
+
+        Question.prototype.correctAnswer = function (choice) {
+            return choice === this.answer;
+        }
+        function populate() {
+            if (quiz.isEnded()) {
+                showScores();
+            } else {
+                var element = document.getElementById('question');
+                element.innerHTML = quiz.getQuestionIndex().text;
+
+                var choices = quiz.getQuestionIndex().choices;
+                for (var i = 0; i < choices.length; i++) {
+                    var element = document.getElementById('choice' + i);
+                    element.innerHTML = choices[i];
+
+                    guess("btn" + i, choices[i]);
+                }
+
+                showProgress();
+            }
+            startCountDown();
+        }
+
+        function guess(id, guess) {
+            var button = document.getElementById(id);
+            button.onclick = function () {
+                quiz.guess(guess);
+                populate();
+            }
+        }
+
+        function startCountDown() {
+            document.addEventListener('keydown', function () {
+                if (event.keyCode == 123) {
+                    alert("Action Prohibited")
+                    quiz.isEnded().true;
+                    document.querySelector("input[name=flag]").value = true;
+                    showScores();
+                    return false;
+                } else if (event.ctrlKey && event.shiftKey && event.keyCode == 73) {
+                    alert("Action Prohibited")
+                    quiz.isEnded().true;
+                    document.querySelector("input[name=flag]").value = true;
+                    showScores();
+                    return false;
+                } else if (event.ctrlKey && event.keyCode == 85) {
+                    alert("Action Prohibited")
+                    quiz.isEnded().true;
+                    document.querySelector("input[name=flag]").value = true;
+                    showScores();
+                    return false;
+                }
+            }, false);
+            var action = window.performance.getEntriesByType("navigation")[0].type;
+            if (action == 'reload') {
+                alert("Action Prohibited")
+                quiz.isEnded().true;
+                document.querySelector("input[name=flag]").value = true;
+                showScores();
+            }
+            function stp() {
+                quiz.isEnded().true;
+                document.querySelector("input[name=flag]").value = true;
+                showScores();
+            }
+
+            if (document.addEventListener) {
+                document.addEventListener('contextmenu', function (e) {
+                    e.preventDefault();
+                    alert("Action Prohibited")
+                    quiz.isEnded().true;
+                    document.querySelector("input[name=flag]").value = true;
+                    showScores();
+                }, false);
+            } else {
+                document.attachEvent('oncontextmenu', function () {
+                    window.event.returnValue = false;
+                    alert("Action Prohibited")
+                    quiz.isEnded().true;
+                    document.querySelector("input[name=flag]").value = true;
+                    showScores();
+                });
+            }
+
+            var countdownNumberEl = document.getElementById('countdownnumber');
+            var countdown = 10;
+            const interval = setInterval(() => {
+                countdown = --countdown <= -1 ? 10 : countdown;
+                if (!document.getElementById('score')) {
+                    countdownNumberEl.textContent = countdown;
+                } else {
+                    countdownNumberEl.textContent = 'Time Up!';
+                }
+                if (countdown == 0) {
+                    clearInterval(interval);
+                    quiz.guess("null", 'choices[i]');
+                    populate();
+                }
+            }, 1000)
+        }
+        function showProgress() {
+            var currentQuestionNumber = quiz.questionIndex + 1;
+            var element = document.getElementById('progress');
+            element.innerHTML = "Questions " + currentQuestionNumber + " of " + quiz.questions.length;
+        }
+        function showScores() {
+            var gameOverHTML = "<h1>Result</h1>";
+            gameOverHTML += "<h2 id='score'> Your Scores: " + quiz.score + "</h2>";
+            var element = document.getElementById('quiz');
+            element.innerHTML = gameOverHTML;
+            // submit scores
+            var subtn = '<button type="submit" id="hangoutButtonId"></button>';
+            var submitbtn = document.getElementById('submit');
+            submitbtn.innerHTML = subtn;
+            document.querySelector("input[name=done]").value = quiz.score;
+            document.getElementById('hangoutButtonId').click()
+        }
+
+        var questions = [
+            {% for question in questions %}
+        new Question(
+            '{{question.question}}',
+            [
+                '{{question.option_a}}',
+                '{{question.option_b}}',
+                '{{question.option_c}}',
+                '{{question.option_d}}'
+            ],
+            '{{question.answer}}'),
+            {% endfor %}            
+            ];
+        var quiz = new Quiz(questions);
+        populate();
+    </script>
+
+
+
+</body>
+
+</html>

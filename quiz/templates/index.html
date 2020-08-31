@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'style.css'%}">
+    <title>{{request.user|title}}'s</title>
+</head>
+
+<body>
+    <div id="sec_1">
+        <div id="sec_2">
+            <h2> DASHBOARD</h2>
+            <ul style="list-style: none;">
+                <li>
+                    <h1>{{request.user.profile.first_name|upper}} {{request.user.profile.last_name|upper}} </h1>
+                </li>
+                {% if request.user.profile.assessed %}
+                <li>
+                    <h3 id="point">TOTAL SCORE:
+                        <span id="report">
+                            {{ request.user.profile.total_points}}%
+                        </span>
+
+                    </h3>
+                    <h3>STATUS:
+                        {% if request.user.profile.total_points > 75 %}
+                        <Span id="succeessful">
+                            SUCCESSUL!
+                        </Span>
+                        {%else%}
+                        <Span id="failed">
+                            FAILED!
+                        </Span>
+                        {%endif%}
+                    </h3>
+                    {% if request.user.profile.malpractise %}
+                    <i style="color: red;">
+                        Your Are Flagged for Malpractise
+                    </i>
+                    {%endif%}
+                    <p><a href="">Click here for Support</a></p>
+                </li>
+                {%else%}
+                <li>
+                    <a href="/story/">
+                        <button class="btn_s">Take Assessment</button>
+                    </a>
+                </li>
+                {%endif%}
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
