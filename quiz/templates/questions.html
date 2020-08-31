@@ -17,7 +17,7 @@
     </div>
     <div class="container">
         <div id="quiz">
-            <h1>Time Left - <span id="countdownnumber"></span></h1>
+            <h1 id="indicator">Time Left - <span id="countdownnumber"></span></h1>
 
             <hr style="margin-bottom: 20px">
 
@@ -171,8 +171,7 @@
                 }
                 if (countdown == 0) {
                     clearInterval(interval);
-                    alert("Time Up!")
-                    countdown.innerHTML = "Time Up!"
+                    alert("Time Up!");
                     quiz.isEnded().true;
                     showScores();
                 }

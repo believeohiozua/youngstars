@@ -4,7 +4,7 @@
 #### This application is Hosted live at : https://youngstarmcq.herokuapp.com/
 
 ### To Run the Application Locally,
-### (**please Ensure you have `Python 3` and pip Installed in your laocal machine**)
+### (**please Ensure you have `Python 3` and pip Installed in your local machine and run the following commands**)
 
 
  #### 1. create a Virtual environment (optional) :  `mkvirtualenv your-env-name`
@@ -14,4 +14,4 @@
  #### 5. **Create Super User, to check administration pages (optional)** `python manage.py createsuperuser`
  #### 6. `python manage.py runserver`
 
- **http://127.0.0.1:8000/**
+#### 7. Lunch  `**http://127.0.0.1:8000/**` on your browser
