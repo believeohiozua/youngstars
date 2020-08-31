@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    {% if story%}
     <a href="/" style="padding: 20px;">HOME</a>
     <div id="stry_1">
         <h1 id="stry_head">
@@ -19,11 +20,12 @@
         </p>
     </div>
     <div>
+        <hr>
+        <h1 style="text-align: center;"><u>ASSESSMENT</u></h1>
         <div id="stry_2">
-            <h2 id="stry_head">
-                INSTRUCTIONS </h2>
+            <h3 id="stry_head">
+                INSTRUCTIONS </h3>
             <p id="stry_body">
-
                 Within the proceeding page, you will be asssed based on the study above.
                 You are therefore advised to read the instructions below carefull before proceeding
                 to take the assessment.
@@ -43,23 +45,24 @@
                 <li>
                     Once you select your answer or your 10 seconds elapses, you will Automatically see the next question
                 </li>
+                <li>
+                    When you are ready, click the START Button below to begin.
+                </li>
+
             </ol>
             <h3>NOTE!</h3>
             <ol style="text-align: left;">
                 <li>
-                    You must focus your Mouse only within the Area of the assessments.
+                    You must focus your Mouse only within the Area of the Assessments.
                 </li>
                 <li>
                     Do Not click or open Another tab during assessment
                 </li>
                 <li>
-                    Do not Reload the Page
+                    Do not Reload or Navigate from the Page
                 </li>
                 <li>
                     Do not try to inspect or checkout the view source of the page
-                </li>
-                <li>
-                    When you are ready, click the START Button below to begin.
                 </li>
 
 
@@ -77,13 +80,22 @@
 
         <div style="text-align: center; padding-bottom: 20px;">
             <a href="/questions/">
-                <button class="btn_s">&ensp; START &ensp;</button>
+                <button id="btn_s">&ensp; START &ensp;</button>
 
                 <p>
                     <i>Good Luck!</i>
                 </p>
             </a>
         </div>
+        {% else%}
+        <div style="text-align: center;">
+            <h1>
+                PROCESS ERROR
+            </h1>
+            <a href="">Click here for Support</a>
+
+        </div>
+        {% endif%}
 </body>
 
 </html>

@@ -112,7 +112,7 @@ body {
     }
 }
 
-.btn_s {
+#btn_s {
     padding: 10px;
     background: rgb(6, 231, 156);
     border: 1px solid gray;
@@ -155,7 +155,7 @@ table {
     border: 1px solid springgreen;       
     border-radius: 100%;
 }
-
+#close{border-radius:50%; background: red;}
 #questions{
     -webkit-user-select: none;
 -khtml-user-select: none;
@@ -164,3 +164,5 @@ table {
 -o-user-select: none;
 user-select: none;
 }
+
+

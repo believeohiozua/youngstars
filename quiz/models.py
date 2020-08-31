@@ -10,10 +10,12 @@ class Story(models.Model):
     """
    Study Schema
     """
+    title = models.CharField(max_length=100)
     story = models.TextField()
+    publish = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.story[:100])
+        return str(self.title)
 
 
 class Mcq(models.Model):

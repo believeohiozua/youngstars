@@ -12,6 +12,11 @@
 <body>
     <div id="sec_1">
         <div id="sec_2">
+            <p style="position: relative; float: right;">
+                {%if request.user.is_authenticated%}
+                <a class="dropdown-item" href="{% url 'account_logout' %}">Logout</a>
+                {%endif%}
+            </p>
             <h2> DASHBOARD</h2>
             <ul style="list-style: none;">
                 <li>
@@ -45,14 +50,51 @@
                 </li>
                 {%else%}
                 <li>
-                    <a href="/story/">
-                        <button class="btn_s">Take Assessment</button>
-                    </a>
+                    <button id="btn_s">Take Assessment</button>
                 </li>
                 {%endif%}
             </ul>
+            <div id="select_topic" style="display: none;">
+                {% if stories %}
+                <h2>
+                    <u>Select A Topic</u>
+                    <button id="close">&times;</button>
+                </h2>
+                <ol style="list-style: none; text-align: center;">
+                    {% for story in stories %}
+                    {% if story.publish %}
+                    <li>
+                        <form action="/story/" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input type="hidden" name="title" value="{{story.title}}">
+                            <button type="submit">
+                                &ensp; {{story.title|upper}}&ensp;
+                            </button>
+                        </form>
+                    </li>
+                    {% endif %}
+                    {% empty %}
+                    <p> There are Currently No Avalible topics <br>
+                        <a href="">Click here for Support</a></p>
+                    {% endfor %}
+                </ol>
+                {% endif %}
+            </div>
         </div>
     </div>
+    <script>
+        var btn_s = document.getElementById('btn_s');
+        var close_window = document.getElementById('close');
+        btn_s.addEventListener('click', pickTopic);
+        close_window.addEventListener('click', Closewin);
+
+        function pickTopic() {
+            document.getElementById('select_topic').style = 'display:block;';
+        };
+        function Closewin() {
+            document.getElementById('select_topic').style = 'display:none;';
+        };
+    </script>
 </body>
 
 </html>

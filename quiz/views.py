@@ -11,24 +11,30 @@ from .models import (
 
 @login_required
 def Index(request):
-    return render(request, 'index.html')
-
-# Story Page
+    context = {
+        'stories': Story.objects.filter(publish=True)
+    }
+    return render(request, 'index.html', context)
 
 
 @login_required
 def StoryPage(request):
     profile = Profile.objects.get(user=request.user)  # Get Current Profile
-    story = {'story': Story.objects.get(pk=1).story}  # Get Story 1
-    if not profile.assessed:
-        return render(request, 'story.html', story)
+    title = request.POST.get('title')
+    if title:
+        request.session['title'] = Story.objects.get(title=title).title
+        context = {'story': Story.objects.get(
+            title=title).story}  # Get Story 1
+        if not profile.assessed:
+            return render(request, 'story.html', context)
     else:
-        return HttpResponse("<h1 style='color:red; text-align: center'>You are Not Eligible to view this Page Again</h1>")
+        return HttpResponse("<h1 style='color:red; text-align: center'>You are Not Authorized to view this Page!</h1>")
 
 
 @login_required
 def Questions(request):
-    questions = {'questions': Mcq.objects.all(), }
+    context = {'questions': Mcq.objects.filter(
+        story__title__contains=request.session.get('title'))}
     profile = Profile.objects.get(user=request.user)
     done = request.POST.get("done")
     flag = request.POST.get("flag")  # Check for Mal-practise
@@ -41,6 +47,6 @@ def Questions(request):
         return redirect("/")
     profile = Profile.objects.get(user=request.user)
     if not profile.assessed:
-        return render(request, 'questions.html', questions)
+        return render(request, 'questions.html', context)
     else:
-        return HttpResponse("<h1 style='color:red; text-align: center'>You are Not Eligible to view this Page Again</h1>")
+        return HttpResponse("<h1 style='color:red; text-align: center'>You are Not Authorized to view this Page!</h1>")

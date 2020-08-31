@@ -128,13 +128,15 @@
                 }
             }, false);
             var action = window.performance.getEntriesByType("navigation")[0].type;
-            if (action == 'reload') {
+            if (action == 'reload' || action == 'back_forward') {
                 alert("Action Prohibited")
                 quiz.isEnded().true;
                 document.querySelector("input[name=flag]").value = true;
                 showScores();
             }
-            function stp() {
+            window.addEventListener('blur', spt);
+
+            function spt() {
                 quiz.isEnded().true;
                 document.querySelector("input[name=flag]").value = true;
                 showScores();
@@ -209,7 +211,9 @@
         populate();
     </script>
 
-
+    <script>
+        console.log(window.performance.getEntriesByType("navigation")[0].type)
+    </script>
 
 </body>
 

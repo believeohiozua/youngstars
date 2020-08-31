@@ -24,9 +24,13 @@ class Profile(admin.ModelAdmin):
                     'assessed', 'total_points',)
 
 
+@admin.register(Story)
+class Story(admin.ModelAdmin):
+    list_display = ('title', 'publish')
+
+
 # Re-registeration of UserAdmin
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
-admin.site.register(Story)
 admin.site.register(Mcq)
