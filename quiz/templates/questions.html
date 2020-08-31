@@ -94,9 +94,9 @@
 
                 showProgress();
             }
-            startCountDown();
-        }
 
+        }
+        startCountDown();
         function guess(id, guess) {
             var button = document.getElementById(id);
             button.onclick = function () {
@@ -161,9 +161,9 @@
             }
 
             var countdownNumberEl = document.getElementById('countdownnumber');
-            var countdown = 10;
+            var countdown = 121;
             const interval = setInterval(() => {
-                countdown = --countdown <= -1 ? 10 : countdown;
+                countdown = --countdown <= -1 ? 121 : countdown;
                 if (!document.getElementById('score')) {
                     countdownNumberEl.textContent = countdown;
                 } else {
@@ -171,8 +171,10 @@
                 }
                 if (countdown == 0) {
                     clearInterval(interval);
-                    quiz.guess("null", 'choices[i]');
-                    populate();
+                    alert("Time Up!")
+                    countdown.innerHTML = "Time Up!"
+                    quiz.isEnded().true;
+                    showScores();
                 }
             }, 1000)
         }
