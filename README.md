@@ -7,11 +7,11 @@
 ### (**please Ensure you have `Python 3` and pip Installed in your laocal machine**)
 
 
- ### 1. create a Virtual environment (optional) :  `mkvirtualenv your-env-name`
- ### 2. `pip install -r requirements.txt`
- ### 3. `python manage.py makemigrations`
- ### 4. `python manage.py migrate`
- ### 5. **Create Super User, to check administration pages (optional)** `python manage.py createsuperuser`
- ### 6. `python manage.py createsuperuser`
+ #### 1. create a Virtual environment (optional) :  `mkvirtualenv your-env-name`
+ #### 2. `pip install -r requirements.txt`
+ #### 3. `python manage.py makemigrations`
+ #### 4. `python manage.py migrate`
+ #### 5. **Create Super User, to check administration pages (optional)** `python manage.py createsuperuser`
+ #### 6. `python manage.py runserver`
 
  **http://127.0.0.1:8000/**
