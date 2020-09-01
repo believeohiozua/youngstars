@@ -24,7 +24,7 @@ def StoryPage(request):
     if title:
         request.session['title'] = Story.objects.get(title=title).title
         context = {'story': Story.objects.get(
-            title=title).story}  # Get Story 1
+            title=title)}  # Get Story 1
         if not profile.assessed:
             return render(request, 'story.html', context)
     else:
